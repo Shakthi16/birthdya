@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whimsical Birthday Varshu! ✨❤️</title>
+    <!-- Cartoonistic/Divine Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Fredoka+One&family=Pacifico&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --outline: #222;
+            --pink: #ff85a2;
+            --blue: #4cc9f0;
+            --gold: #ffcc33;
+            --divine: #ffd700;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100dvh; width: 100%;
+            overflow: hidden; font-family: 'Bubblegum Sans', cursive;
+            background: #caf0f8;
+        }
+
+        /* Background Layers */
+        .sky {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(180deg, #a2d2ff 0%, #ffffff 100%);
+            z-index: -3;
+        }
+
+        .temple-bg-layer {
+            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; height: 60%;
+            background: url('temple_bg.png') no-repeat center bottom;
+            background-size: contain;
+            z-index: -2;
+            animation: bounce 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce { from { transform: translateX(-50%) translateY(0); } to { transform: translateX(-50%) translateY(-15px); } }
+
+        /* Step 1 Unique - Temple Photo at Corner */
+        .corner-temple {
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 120px;
+            height: 120px;
+            border: 4px solid var(--outline);
+            border-radius: 20px;
+            transform: rotate(-15deg);
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
+            object-fit: cover;
+            z-index: 20;
+        }
+
+        /* Divine Card Styles */
+        .card {
+            background: #fff;
+            border: 6px solid var(--outline);
+            border-radius: 40px;
+            padding: 2rem;
+            width: 90%; max-width: 460px;
+            text-align: center;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.15);
+            position: relative; z-index: 10;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        /* Custom Scrollbar */
+        .card::-webkit-scrollbar { width: 4px; }
+        .card::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
+
+        .title-bubbly {
+            font-family: 'Fredoka One', cursive;
+            -webkit-text-stroke: 1.2px var(--outline);
+            text-shadow: 3px 3px 0px var(--gold);
+            line-height: 1.2;
+        }
+
+        /* Interaction Elements */
+        .bell {
+            font-size: 4rem; color: var(--gold); cursor: pointer;
+            filter: drop-shadow(4px 4px 0px var(--outline));
+            transition: 0.2s;
+        }
+        .bell:active { transform: scale(1.3) rotate(20deg); }
+        .swing { animation: bellSwing 2s ease-in-out infinite alternate; transform-origin: top center; }
+        @keyframes bellSwing { from { transform: rotate(-10deg); } to { transform: rotate(10deg); } }
+
+        /* Section Handling */
+        .part { display: none; opacity: 0; transform: scale(0.95); transition: 0.5s all cubic-bezier(0.18, 0.89, 0.32, 1.28); }
+        .show { display: block; opacity: 1; transform: scale(1); }
+
+        /* Cake Elements */
+        .cake { position: relative; width: 180px; height: 120px; margin: 20px auto; }
+        .cake-top { width: 130px; height: 55px; background: var(--pink); border: 4px solid var(--outline); border-radius: 25px 25px 0 0; position: absolute; bottom: 0; left: 25px; }
+        .candle { width: 12px; height: 32px; background: #fff; border: 3px solid var(--outline); border-radius: 10px; position: absolute; bottom: 53px; cursor: pointer; }
+        .flame { width: 16px; height: 22px; background: var(--gold); border: 2.5px solid var(--outline); border-radius: 50% 50% 20% 20%; position: absolute; top: -25px; left: -4px; animation: flicker 0.2s infinite; }
+        @keyframes flicker { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15) translateY(-2px); } }
+
+        /* Final Photo & Video */
+        .photo-frame {
+            border: 6px solid white; border-radius: 25px;
+            box-shadow: 6px 6px 0px var(--blue);
+            transform: rotate(-2deg); margin: 15px auto; overflow: hidden; max-width: 240px;
+        }
+
+        .btn-cartoon {
+            background: #8338ec; border: 4px solid var(--outline); padding: 12px 18px; border-radius: 50px; color: #fff;
+            font-family: 'Fredoka One', cursive; font-size: 1.1rem; cursor: pointer; box-shadow: 5px 5px 0px var(--outline); 
+            transition: 0.2s; width: 100%; margin-top: 1rem;
+        }
+        .btn-cartoon:active { box-shadow: 2px 2px 0px var(--outline); transform: translate(3px, 3px); }
+
+        #whimsical-canvas { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100; opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="sky"></div>
+    <div class="temple-bg-layer"></div>
+    <!-- New Canvas for wholesome anime particles -->
+    <canvas id="whimsical-canvas"></canvas>
+
+    <main class="flex items-center justify-center min-h-screen p-4">
+        
+        <!-- STEP 1: Front Page (God Blessings) -->
+        <div id="step-1" class="card show">
+            <img src="temple.jpeg" alt="Temple" class="corner-temple">
+            <h2 class="text-lg text-blue-600 font-bold mb-2">A Message For You... ✨</h2>
+            <div class="my-6 flex justify-center">
+                <i class="fa-solid fa-bell bell swing" onclick="goNext(1)"></i>
+            </div>
+            <h1 class="title-bubbly text-2xl md:text-3xl mb-4 text-pink-500">
+                You are a <span class="text-yellow-600">God Chosen</span> Child!
+            </h1>
+            <div class="text-gray-600 text-base leading-relaxed space-y-2 px-1 italic">
+                <p>"So yeah, Happy Birthday!"</p>
+                <p>"Everything will soon reach you, my child."</p>
+                <p>"I am sending my blessings... it will take time but it will reach you."</p>
+            </div>
+            <p class="mt-4 text-xs text-gray-400">Ring the bell for Varshu's surprise</p>
+        </div>
+
+        <!-- STEP 2: Virtual Cake -->
+        <div id="step-2" class="card part">
+            <h1 class="title-bubbly text-3xl text-pink-500 mb-2">Make A Wish! 🍰</h1>
+            <p class="text-xs text-gray-500 mb-4 px-2">Touch the flames to blow out the candles!</p>
+            <div class="cake">
+                <div class="cake-top"></div>
+                <div class="candle" style="left: 30%;" onclick="blow(this)"><div class="flame"></div></div>
+                <div class="candle" style="left: 50%;" onclick="blow(this)"><div class="flame"></div></div>
+                <div class="candle" style="left: 70%;" onclick="blow(this)"><div class="flame"></div></div>
+            </div>
+            <p id="wish-txt" class="text-lg text-blue-500 font-bold opacity-0 transition-opacity">A blessing is coming! ❤️</p>
+        </div>
+
+        <!-- STEP 3: Bestie Message -->
+        <div id="step-3" class="card part">
+            <h1 class="title-bubbly text-3xl text-purple-600 mb-4">Dearest Bestie</h1>
+            <div class="text-left py-2 text-gray-700 space-y-3 text-base">
+                <p>To my <span class="font-bold text-pink-500">TRUE good friend</span> who was <span class="text-blue-500 font-bold underline decoration-pink-300">never fake to me</span>.</p>
+                <p>I have <span class="text-orange-500 font-bold">shared EVERYTHING</span> with you—from small secrets to big joys. You're the best!</p>
+            </div>
+            <p class="font-pacifico text-2xl text-pink-600 mt-4 border-t border-dashed pt-4">Happy Birthday Varshu! 🎂</p>
+            <button class="btn-cartoon" onclick="goNext(3)">Reveal the Star! 📸</button>
+        </div>
+
+        <!-- STEP 4: Photo & Journey -->
+        <div id="step-4" class="card part">
+            <h1 class="title-bubbly text-2xl text-pink-500 mb-2">VARSHU STAR! ⭐</h1>
+            <div class="photo-frame">
+                <img src="varshu.jpeg" alt="Varshu" class="w-full">
+            </div>
+            <p class="text-blue-600 text-xl font-bold mb-2">Stay Blessed Forever!</p>
+            
+            <button id="journey-btn" class="btn-cartoon" onclick="showJourney()">Your Journey As For Me</button>
+            <div id="video-container" style="display:none; margin-top:15px; border-radius:20px; overflow:hidden;" class="border-4 border-black">
+                <video id="journey-video" class="w-full" controls>
+                    <source src="journey.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <button class="text-xs text-gray-400 mt-6 block w-full text-center" onclick="location.reload()">Replay Surpise 🔄</button>
+        </div>
+
+    </main>
+
+    <script>
+        let blown = 0;
+        function goNext(cur) {
+            const el = document.getElementById(`step-${cur}`);
+            el.classList.add('transition-all', 'duration-500', 'opacity-0', 'scale-90');
+            setTimeout(() => {
+                el.style.display = 'none';
+                const next = document.getElementById(`step-${cur+1}`);
+                next.style.display = 'block';
+                setTimeout(() => next.classList.add('show'), 50);
+                if(cur+1 === 4) startWhimsy();
+            }, 550);
+        }
+
+        function blow(el) {
+            if(el.style.opacity === '0.3') return;
+            el.querySelector('.flame').style.display = 'none';
+            el.style.opacity = '0.3';
+            blown++;
+            if(blown === 3) {
+                document.getElementById('wish-txt').classList.replace('opacity-0', 'opacity-100');
+                setTimeout(() => goNext(2), 2000);
+            }
+        }
+
+        function showJourney() {
+            document.getElementById('journey-btn').style.display = 'none';
+            document.getElementById('video-container').style.display = 'block';
+            document.getElementById('journey-video').play();
+        }
+
+        // --- Whimsical Anime Particles (Lite & Cute) ---
+        function startWhimsy() {
+            const canvas = document.getElementById('whimsical-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            const parts = [];
+
+            class Particle {
+                constructor(type) {
+                    this.type = type; // 'heart' or 'comet'
+                    this.x = Math.random() * canvas.width;
+                    this.y = type === 'comet' ? -20 : (Math.random() * canvas.height);
+                    this.s = type === 'heart' ? (Math.random() * 8 + 6) : (Math.random() * 2 + 1);
+                    this.v = type === 'heart' ? {x:(Math.random()-0.5)*1, y:-(Math.random()*1 + 0.5)} : {x:3, y:3};
+                    this.l = 1;
+                    this.c = type === 'heart' ? `rgba(255, ${Math.random()*100+100}, ${Math.random()*100+150}, o)` : `rgba(255, 255, 255, o)`;
+                    this.history = [];
+                }
+                draw() {
+                    ctx.save();
+                    const color = this.c.replace('o', this.l);
+                    ctx.fillStyle = color;
+                    if(this.type === 'heart') {
+                        this.drawHeart(this.x, this.y, this.s);
+                    } else {
+                        // Comet Trail
+                        ctx.beginPath();
+                        ctx.strokeStyle = color;
+                        ctx.lineWidth = this.s;
+                        ctx.moveTo(this.x, this.y);
+                        ctx.lineTo(this.x - 40, this.y - 40);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                }
+                drawHeart(x, y, size) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.bezierCurveTo(x, y - size/2, x - size/2, y - size/2, x - size/2, y);
+                    ctx.bezierCurveTo(x - size/2, y + size/2, x, y + size, x, y + size);
+                    ctx.bezierCurveTo(x, y + size, x + size/2, y + size/2, x + size/2, y);
+                    ctx.bezierCurveTo(x + size/2, y - size/2, x, y - size/2, x, y);
+                    ctx.fill();
+                }
+                up() {
+                    this.x += this.v.x; this.y += this.v.y; this.l -= 0.005;
+                    if(this.type === 'comet') { this.x += 1; this.y += 1; }
+                }
+            }
+
+            function loop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Lower spawn rate for "Lite" feel
+                if(Math.random() < 0.04) parts.push(new Particle('heart'));
+                if(Math.random() < 0.01) parts.push(new Particle('comet'));
+
+                parts.forEach((p, i) => {
+                    if(p.l > 0 && p.x < canvas.width + 100 && p.y < canvas.height + 100) {
+                        p.up(); p.draw();
+                    } else { parts.splice(i, 1); }
+                });
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+        window.onresize = () => {
+            const canvas = document.getElementById('whimsical-canvas');
+            if(canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        };
+    </script>
+</body>
+</html>
